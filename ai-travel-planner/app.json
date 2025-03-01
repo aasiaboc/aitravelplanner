@@ -8,6 +8,11 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#F8F9FA"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.aitravelplanner"
@@ -15,7 +20,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#F8F9FA"
       },
       "package": "com.anonymous.aitravelplanner"
     },
@@ -26,15 +31,7 @@
     },
     "plugins": [
       "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
-        }
-      ],
+      "expo-splash-screen",
       "expo-font"
     ],
     "experiments": {

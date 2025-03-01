@@ -56,12 +56,13 @@ export default function Login() {
             lineHeight: 18,
             width: '100%',
         }}>
-          Plan Smarter. Travel Better
+          Plan Smarter. Travel Better.
         </Text>
         <SolidButton 
-          color='#F3F3F3' 
+          color={Colors.white} 
           textcolor={Colors.black} 
           text='Get Started' 
+          styles={styles.elevationShadow}
           onPress={()=>router.push('auth/sign-in')}/>
       </View>
     
