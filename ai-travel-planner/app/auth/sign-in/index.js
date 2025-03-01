@@ -13,38 +13,83 @@ export default function SignIn() {
       headerShown: false
     })
   },[])
-  const [isEmailFocused, setIsEmailFocused] = React.useState(false);
+  const [isEmailFocused, setisEmailFocused] = React.useState(false);
   const [isPasswordFocused, setPasswordIsFocused] = React.useState(false);
 
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
+  const handleSignIp = () => {
+    setIsSubmitted(true); // Mark form as submitted
+    if (
+      email.length === 0 ||
+      password.length === 0
+    ) {
+      return; // Prevents further execution if any field is empty
+    }
+    if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+      return; // Prevents sign-up if email format is invalid
+    }
+    if (password.length === 0) {
+      return; // Prevents further execution if password is empty
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()}>
+      <TouchableOpacity onPress={() => router.back()}>
         <MaterialIcons name="arrow-back-ios" size={20} color={Colors.black} />
       </TouchableOpacity>
       <Text style={styles.title}>Sign in</Text>
+      {/* Email section */}
       <Text style={styles.label}>Email</Text>
       <TextInput
         style={[
           styles.input,
           { 
-            borderColor: isEmailFocused ? Colors.primary : Colors.grey, 
-            borderWidth: isEmailFocused ? 1 : 0 }
+            borderColor:
+              isSubmitted && email.length === 0
+                ? Colors.red
+                : isSubmitted && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)
+                ? Colors.red
+                : Colors.grey,
+            borderWidth:
+              isSubmitted && (email.length === 0 || !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) ? 1 : 0,
+          }
         ]}
         placeholder="Enter Email"
         placeholderTextColor={Colors.grey}
-        keyboardType="email-address"
-        onFocus={() => setIsEmailFocused(true)}
-        onBlur={() => setIsEmailFocused(false)}
+        onFocus={() => setisEmailFocused(true)}
+        onBlur={() => setisEmailFocused(false)}
+        onChangeText={(text) => {
+          setEmail(text);
+          setIsSubmitted(false);
+        }}
+        maxLength={40}
       />
+      {isSubmitted && email.length === 0 && (
+        <Text style={styles.errorText}>Email is required.</Text>
+      )}
+      {isSubmitted && email.length > 0 && !/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email) && (
+        <Text style={styles.errorText}>Invalid email format.</Text>
+      )}
+
+      {/* Password */}
       <Text style={styles.label}>Password</Text>
       <View style={{ 
         flexDirection: 'row', 
         alignItems: 'center',
         ...styles.containerRadius,
-        borderColor: isPasswordFocused ? Colors.primary : Colors.grey, 
-        borderWidth: isPasswordFocused ? 1 : 0 
+        borderColor:
+          isSubmitted && password.length === 0
+            ? Colors.red // Required validation on submit
+            : isPasswordFocused
+            ? Colors.primary
+            : Colors.grey,
+        borderWidth:
+          isSubmitted && password.length === 0 || (password.length > 0 && password.length < 8) ? 1 : 0,
       }}>
         <TextInput
           style={{
@@ -57,15 +102,24 @@ export default function SignIn() {
           secureTextEntry={!isPasswordVisible}
           onFocus={() => setPasswordIsFocused(true)}
           onBlur={() => setPasswordIsFocused(false)}
+          onChangeText={(text) => {
+            setPassword(text);
+            setIsSubmitted(false); // Reset submit state when typing
+          }}
         />
         <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
           <MaterialIcons name={isPasswordVisible ? "visibility" : "visibility-off"} size={24} color={Colors.grey} />
         </TouchableOpacity>
       </View>
+      {/* Show validation errors */}
+      {isSubmitted && password.length === 0 && (
+        <Text style={styles.errorText}>Password is required.</Text>
+      )}
+
       <Text style={{
         fontSize: 14,
         fontFamily: 'Poppins-Medium',
-        marginTop: 15,
+        marginTop: 10,
         color: Colors.grey,
         alignSelf: 'flex-end'
         // onPress
@@ -74,7 +128,7 @@ export default function SignIn() {
       </Text>
 
       {/* Sign in btn */}
-      <TouchableOpacity style={{
+      <TouchableOpacity onPress={handleSignIp} style={{
         ...styles.containerRadius,
         backgroundColor: Colors.primary,
         marginTop: 80,
@@ -123,16 +177,17 @@ const styles = {
     fontSize: 35,
     fontFamily: 'Poppins-SemiBold',
     marginTop: 18,
+    marginBottom: 10,
   },
   label: {
     fontSize: 16,
     fontFamily: 'Poppins-Medium',
-    marginTop: 25,
+    marginTop: 15,
   },
   input: {
     height: 50,
     borderRadius: 30,
-    marginTop: 10,
+    marginTop: 5,
     paddingHorizontal: 20,
     backgroundColor: Colors.white,
     ...Platform.select({
@@ -146,11 +201,8 @@ const styles = {
         elevation: 5,
       },
     }),
-
     fontFamily: 'Poppins-Regular',
     fontSize: 14,
-    
-    
   },
   elevationShadow: {
     ...Platform.select({
@@ -168,7 +220,7 @@ const styles = {
   containerRadius:{
     height: 50,
     borderRadius: 30,
-    marginTop: 10,
+    marginTop: 5,
     paddingHorizontal: 20,
     backgroundColor: Colors.white,
     ...Platform.select({
@@ -182,5 +234,11 @@ const styles = {
         elevation: 5,
       },
     }),
-  }
+  },
+  errorText: {
+    color: Colors.red,
+    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+    marginTop: 5,
+  },
 };
