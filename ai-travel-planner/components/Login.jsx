@@ -3,6 +3,7 @@ import React from 'react'
 import SolidButton from './../components/SolidButton'
 import { StyleSheet, Platform } from 'react-native';
 import {useRouter} from 'expo-router'
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export default function Login() {
   const router=useRouter();
@@ -59,8 +60,8 @@ export default function Login() {
         </Text>
         <SolidButton 
           color='#F3F3F3' 
-          textcolor='black' 
-          text='Sign in with Google' 
+          textcolor={Colors.black} 
+          text='Get Started' 
           onPress={()=>router.push('auth/sign-in')}/>
       </View>
     
