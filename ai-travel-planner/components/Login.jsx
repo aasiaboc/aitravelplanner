@@ -1,6 +1,6 @@
 import { View, Text, Image, ImageBackground } from 'react-native'
 import React from 'react'
-import SolidButton from './../components/SolidButton'
+import SolidButton from './SolidButton'
 import { StyleSheet, Platform } from 'react-native';
 import {useRouter} from 'expo-router'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -63,7 +63,7 @@ export default function Login() {
           textcolor={Colors.black} 
           text='Get Started' 
           styles={styles.elevationShadow}
-          onPress={()=>router.push('auth/sign-in')}/>
+          onPress={()=>router.push('/(auth)/sign-in')}/>
       </View>
     
     </ImageBackground>

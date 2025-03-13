@@ -1,9 +1,11 @@
-import { View, TextInput, Text, Platform, TouchableOpacity } from 'react-native'
+import { View, TextInput, Text, Platform, TouchableOpacity, ToastAndroid } from 'react-native'
 import { Colors } from '../../../constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRouter } from 'expo-router';
-import React, { useEffect } from 'react'
+import React, { useState, useEffect  } from 'react'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import {createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from './../../../configs/FirebaseConfig';
 
 export default function SignUp() {
   const router = useRouter();
@@ -14,6 +16,11 @@ export default function SignUp() {
       })
     },[])
 
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  
   const [isNameFocused, setisNameFocused] = React.useState(false);
   const [isEmailFocused, setisEmailFocused] = React.useState(false);
   const [isPasswordFocused, setPasswordIsFocused] = React.useState(false);
@@ -22,16 +29,37 @@ export default function SignUp() {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = React.useState(false);
   
-  const [password, setPassword] = React.useState('');
-  const [confirmPassword, setConfirmPassword] = React.useState('');
   const [passwordsMatch, setPasswordsMatch] = React.useState(true);
 
 
-  const [name, setName] = React.useState('');
-  const [email, setEmail] = React.useState('');
+  
   const [isSubmitted, setIsSubmitted] = React.useState(false);
   
-  const handleSignUp = () => {
+  // const handleSignUp = () => {
+  //   setIsSubmitted(true); // Mark form as submitted
+  //   if (
+  //     name.length === 0 ||
+  //     email.length === 0 ||
+  //     password.length === 0 ||
+  //     confirmPassword.length === 0
+  //   ) {
+  //     return; // Prevents further execution if any field is empty
+  //   }
+  //   if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+  //     return; // Prevents sign-up if email format is invalid
+  //   }
+  //   if (password.length === 0) {
+  //     return; // Prevents further execution if password is empty
+  //   }
+  //   if (password.length < 8) {
+  //     return; // Prevents sign-up if password is too short
+  //   }
+  //   if (confirmPassword !== password) {
+  //     return; // Prevents sign-up if passwords don’t match
+  //   }
+  // };
+
+  const onCreateAccount = () => {
     setIsSubmitted(true); // Mark form as submitted
     if (
       name.length === 0 ||
@@ -39,6 +67,8 @@ export default function SignUp() {
       password.length === 0 ||
       confirmPassword.length === 0
     ) {
+      alert('Please fill in all fields.');
+      ToastAndroid.show('Please fill in all fields.', ToastAndroid.SHORT);
       return; // Prevents further execution if any field is empty
     }
     if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
@@ -53,6 +83,21 @@ export default function SignUp() {
     if (confirmPassword !== password) {
       return; // Prevents sign-up if passwords don’t match
     }
+
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed up 
+      const user = userCredential.user;
+      console.log(user);
+      
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      // ..
+    });
   };
 
   return (
@@ -77,9 +122,9 @@ export default function SignUp() {
         onFocus={() => setisNameFocused(true)}
         onBlur={() => setisNameFocused(false)}
         maxLength={40}
-        onChangeText={(text) => {
-          setName(text);
-          setIsSubmitted(false); // Reset error state when typing
+        onChangeText={(value) => {
+          setName(value);
+          setIsSubmitted(false);
         }}
         autoCapitalize='words'
       />
@@ -107,8 +152,8 @@ export default function SignUp() {
         placeholderTextColor={Colors.grey}
         onFocus={() => setisEmailFocused(true)}
         onBlur={() => setisEmailFocused(false)}
-        onChangeText={(text) => {
-          setEmail(text);
+        onChangeText={(value) => {
+          setEmail(value);
           setIsSubmitted(false);
         }}
         maxLength={40}
@@ -150,9 +195,9 @@ export default function SignUp() {
           secureTextEntry={!isPasswordVisible}
           onFocus={() => setPasswordIsFocused(true)}
           onBlur={() => setPasswordIsFocused(false)}
-          onChangeText={(text) => {
-            setPassword(text);
-            setIsSubmitted(false); // Reset submit state when typing
+          onChangeText={(value) => {
+            setPassword(value);
+            setIsSubmitted(false);
           }}
         />
         <TouchableOpacity onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
@@ -200,10 +245,11 @@ export default function SignUp() {
           placeholder="Re-enter Password"
           placeholderTextColor={Colors.grey}
           secureTextEntry={!isConfirmPasswordVisible}
-          onChangeText={(text) => {
-            setConfirmPassword(text);
-            setIsSubmitted(false); // Reset error state when typing
+          onChangeText={(value) => {
+            setConfirmPassword(value);
+            setIsSubmitted(false);
           }}
+
         />
         <TouchableOpacity onPress={() => setIsConfirmPasswordVisible(!isConfirmPasswordVisible)}>
           <MaterialIcons
@@ -221,7 +267,7 @@ export default function SignUp() {
       )}
 
       {/* Sign up btn */}
-      <TouchableOpacity onPress={handleSignUp} style={{
+      <TouchableOpacity onPress={onCreateAccount} style={{
         ...styles.containerRadius,
         backgroundColor: Colors.primary,
         marginTop: 60,
@@ -247,7 +293,7 @@ export default function SignUp() {
           fontSize: 14,
           color: Colors.grey,
         }}>Already have an account?</Text>
-        <TouchableOpacity onPress={() => router.replace('auth/sign-in')}>
+        <TouchableOpacity onPress={() => router.replace('/(auth)/sign-in')}>
           <Text style={{
             fontFamily: 'Poppins-Bold',
             fontSize: 14,

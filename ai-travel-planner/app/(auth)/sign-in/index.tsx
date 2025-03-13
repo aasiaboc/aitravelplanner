@@ -1,32 +1,33 @@
-import { View, Text, TouchableOpacity, TextInput, Platform } from 'react-native'
-import React, { useEffect } from 'react'
+import { View, Text, TouchableOpacity, TextInput, Platform, ToastAndroid } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { useNavigation, useRouter } from 'expo-router';
 import { Colors } from '../../../constants/Colors';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from './../../../configs/FirebaseConfig';
 export default function SignIn() {
   const router = useRouter();
   const navigation = useNavigation();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   useEffect(() => {
     navigation.setOptions({
       headerShown: false
     })
   },[])
-  const [isEmailFocused, setisEmailFocused] = React.useState(false);
-  const [isPasswordFocused, setPasswordIsFocused] = React.useState(false);
 
-  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+  const onSignIn = () => {
 
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [isSubmitted, setIsSubmitted] = React.useState(false);
-  const handleSignIp = () => {
     setIsSubmitted(true); // Mark form as submitted
     if (
       email.length === 0 ||
       password.length === 0
     ) {
+      alert('Please fill in all fields.');
+      ToastAndroid.show('Please fill in all fields.', ToastAndroid.SHORT);
       return; // Prevents further execution if any field is empty
     }
     if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
@@ -35,7 +36,65 @@ export default function SignIn() {
     if (password.length === 0) {
       return; // Prevents further execution if password is empty
     }
-  };
+
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed in 
+      const user = userCredential.user;
+      console.log(user);
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorMessage, error.code);
+      if(errorCode === 'auth/user-not-found') {
+        alert('User not found.');
+        ToastAndroid.show('User not found.', ToastAndroid.SHORT);
+      }
+      if(errorCode === 'auth/wrong-password') {
+        alert('Wrong password.');
+        ToastAndroid.show('Wrong password.', ToastAndroid.SHORT);
+      }
+      if(errorCode === 'auth/invalid-email') {
+        alert('Invalid email.');
+        ToastAndroid.show('Invalid email.', ToastAndroid.SHORT);
+      }
+      if(errorCode === 'auth/user-disabled') {
+        alert('User disabled.');
+        ToastAndroid.show('User disabled.', ToastAndroid.SHORT);
+      }
+      if(errorCode === 'auth/network-request-failed') {
+        alert('Network request failed.');
+        ToastAndroid.show('Network request failed.', ToastAndroid.SHORT);
+      }
+      if(errorCode === 'auth/invalid-credential') {
+        alert('Invalid credential.');
+        ToastAndroid.show('Invalid credential.', ToastAndroid.SHORT);
+      }
+    });
+  }
+  const [isEmailFocused, setisEmailFocused] = React.useState(false);
+  const [isPasswordFocused, setPasswordIsFocused] = React.useState(false);
+
+  const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
+
+  const [isSubmitted, setIsSubmitted] = React.useState(false);
+  // const handleSignIp = () => {
+  //   setIsSubmitted(true); // Mark form as submitted
+  //   if (
+  //     email.length === 0 ||
+  //     password.length === 0
+  //   ) {
+  //     return; // Prevents further execution if any field is empty
+  //   }
+  //   if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+  //     return; // Prevents sign-up if email format is invalid
+  //   }
+  //   if (password.length === 0) {
+  //     return; // Prevents further execution if password is empty
+  //   }
+  // };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -63,8 +122,8 @@ export default function SignIn() {
         placeholderTextColor={Colors.grey}
         onFocus={() => setisEmailFocused(true)}
         onBlur={() => setisEmailFocused(false)}
-        onChangeText={(text) => {
-          setEmail(text);
+        onChangeText={(value) => {
+          setEmail(value);
           setIsSubmitted(false);
         }}
         maxLength={40}
@@ -102,8 +161,8 @@ export default function SignIn() {
           secureTextEntry={!isPasswordVisible}
           onFocus={() => setPasswordIsFocused(true)}
           onBlur={() => setPasswordIsFocused(false)}
-          onChangeText={(text) => {
-            setPassword(text);
+          onChangeText={(value) => {
+            setPassword(value);
             setIsSubmitted(false); // Reset submit state when typing
           }}
         />
@@ -128,7 +187,7 @@ export default function SignIn() {
       </Text>
 
       {/* Sign in btn */}
-      <TouchableOpacity onPress={handleSignIp} style={{
+      <TouchableOpacity onPress={onSignIn} style={{
         ...styles.containerRadius,
         backgroundColor: Colors.primary,
         marginTop: 80,
@@ -154,7 +213,7 @@ export default function SignIn() {
           fontSize: 14,
           color: Colors.grey,
         }}>Don't have an account?</Text>
-        <TouchableOpacity onPress={() => router.replace('auth/sign-up')}>
+        <TouchableOpacity onPress={() => router.replace('/(auth)/sign-up')}>
           <Text style={{
             fontFamily: 'Poppins-Bold',
             fontSize: 14,

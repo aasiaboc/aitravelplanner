@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Animated, StyleSheet } from "react-native";
 import Login from "./../components/Login";
-import SplashScreen from "./../components/SplashScreen";
+import SplashScreen from "../components/SplashScreen";
 import { Colors } from '../constants/Colors';
 
 export default function Index() {
