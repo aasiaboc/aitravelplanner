@@ -3,6 +3,8 @@ import { View, Animated, StyleSheet } from "react-native";
 import Login from "./../components/Login";
 import SplashScreen from "../components/SplashScreen";
 import { Colors } from '../constants/Colors';
+import { auth } from "@/configs/FirebaseConfig";
+import { Redirect } from "expo-router";
 
 export default function Index() {
   const [showLogin, setShowLogin] = useState(false);
@@ -11,6 +13,7 @@ export default function Index() {
   const fadeLogin = useRef(new Animated.Value(0)).current; // Login starts invisible
   const translateLoginY = useRef(new Animated.Value(-50)).current; // Login starts slightly above
 
+  const user=auth.currentUser;
   useEffect(() => {
     setTimeout(() => {
       // Fade out SplashScreen
@@ -57,7 +60,12 @@ export default function Index() {
             { opacity: fadeLogin, transform: [{ translateY: translateLoginY }] },
           ]}
         >
-          <Login />
+          {user ? (
+            <Redirect href="/(tabs)/mytrip" />
+          ) : (
+            <Login />
+          )}
+
         </Animated.View>
       )}
     </View>

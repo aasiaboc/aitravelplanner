@@ -5,7 +5,7 @@ import { useNavigation, useRouter } from 'expo-router';
 import React, { useState, useEffect  } from 'react'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import {createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from './../../../configs/FirebaseConfig';
+import { auth } from '../../../configs/FirebaseConfig';
 
 export default function SignUp() {
   const router = useRouter();
@@ -88,6 +88,7 @@ export default function SignUp() {
     .then((userCredential) => {
       // Signed up 
       const user = userCredential.user;
+      router.replace('/(tabs)/mytrip');
       console.log(user);
       
       // ...

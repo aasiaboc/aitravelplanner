@@ -5,7 +5,7 @@ import { Colors } from '../../../constants/Colors';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from './../../../configs/FirebaseConfig';
+import { auth } from '../../../configs/FirebaseConfig';
 export default function SignIn() {
   const router = useRouter();
   const navigation = useNavigation();
@@ -41,6 +41,7 @@ export default function SignIn() {
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
+      router.replace('/(tabs)/mytrip');
       console.log(user);
       // ...
     })
@@ -122,6 +123,7 @@ export default function SignIn() {
         placeholderTextColor={Colors.grey}
         onFocus={() => setisEmailFocused(true)}
         onBlur={() => setisEmailFocused(false)}
+        autoCapitalize='none'
         onChangeText={(value) => {
           setEmail(value);
           setIsSubmitted(false);
