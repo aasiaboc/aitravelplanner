@@ -1,5 +1,8 @@
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
+import { CreateTripContext } from "../context/CreateTripContext";
+import { useState } from "react";
+
 
 export default function RootLayout() {
 
@@ -11,14 +14,16 @@ export default function RootLayout() {
     'poppins-bold':require('../assets/fonts/Poppins-Bold.ttf'),
 
   })
-
+  const [tripData, setTripData] = useState([]);
   return (
-    <Stack screenOptions={{
-      headerShown: false,
-    }}>
-       
-      <Stack.Screen name="(tabs)"/>
-    </Stack>
+    <CreateTripContext.Provider value={{tripData,setTripData}}>
+      <Stack screenOptions={{
+        headerShown: false,
+      }}>
+        
+        <Stack.Screen name="(tabs)"/>
+      </Stack>
+    </CreateTripContext.Provider>
   );
 }
 

@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "components/Login.tsx"  ]
+, "components/Login.tsx", "context/CreateTripContext.js", "app/create-trip/search-place.jsx", "app/create-trip/select-traveler.jsx", "app/_layout.jsx", "components/CreateTrip/OptionCard.jsx"  ]
 }

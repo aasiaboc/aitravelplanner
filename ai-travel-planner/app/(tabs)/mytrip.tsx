@@ -4,8 +4,8 @@ import { Colors } from '@/constants/Colors'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import StartNewTripCard from '@/components/MyTrips/StartNewTripCard';
 export default function MyTrip() {
-  const [userTrips, setUserTrips] = useState([]);
   
+  const [userTrips, setUserTrips] = useState([]);
   
   return (
     <View style={{

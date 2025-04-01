@@ -3,6 +3,7 @@ import React from 'react'
 import Entypo from '@expo/vector-icons/Entypo';
 import { Colors } from '@/constants/Colors';
 import { useRouter } from 'expo-router';
+
 export default function StartNewTripCard() {
 
   const router=useRouter();

@@ -5,6 +5,11 @@ import SplashScreen from "../components/SplashScreen";
 import { Colors } from '../constants/Colors';
 import { auth } from "@/configs/FirebaseConfig";
 import { Redirect } from "expo-router";
+import 'react-native-get-random-values';
+import { v4 as uuidv4 } from 'uuid';
+
+const id = uuidv4();
+console.log(id);
 
 export default function Index() {
   const [showLogin, setShowLogin] = useState(false);
