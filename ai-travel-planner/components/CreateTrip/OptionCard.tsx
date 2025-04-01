@@ -16,14 +16,6 @@ interface OptionCardProps {
 }
 
 export default function OptionCard({ option, selectedTraveler }: OptionCardProps) {
-  console.log("Option Details:", {
-    id: option?.id,
-    title: option?.title,
-    desc: option?.desc,
-    icon: option?.icon,
-    selected: selectedTraveler?.id === option?.id,
-  }); // Log all relevant details
-
   return (
     <View
       style={[
