@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, Platform } from 'react-native'
 import React, { useContext, useEffect } from 'react'
-import { useNavigation } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
 import Entypo from '@expo/vector-icons/Entypo';
 import { CreateTripContext } from '@/context/CreateTripContext';
 import { Colors } from '@/constants/Colors';
@@ -164,12 +164,12 @@ export default function ReviewTrip() {
                     
                 </View>
             </View>
-            {/* <SolidButton 
+            <SolidButton 
                 color={Colors.primary} 
                 textColor={Colors.white} 
                 text={"Build My Trip"} 
-                onPress={() => onClickContinue()}
-            /> */}
+                onPress={() => router.push("../(tabs)/mytrip")}
+            />
     </View>
   )
 }

@@ -20,11 +20,11 @@ export default function SearchPlace() {
       headerShown: true,
       headerTransparent: true,
       headerTitle: "Search",
+      headerTitleAlign: "center", // Ensures the title is centered on Android
       headerLeft: () => (
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 10 }}>
-          <Ionicons name="chevron-back" size={24} color="black" />
-          
-        </TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 10 }}>
+        <Ionicons name="chevron-back" size={24} color="black" />
+      </TouchableOpacity>
       ),
     });
   }, []);

@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, Platform } from 'react-native'
 import React, { useState } from 'react'
 import { Colors } from '@/constants/Colors'
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -10,7 +10,7 @@ export default function MyTrip() {
   return (
     <View style={{
       padding: 25,
-      paddingTop: 55,
+        paddingTop: Platform.OS === "android" ? 40 : 100,
       backgroundColor: Colors.white,
       height: '100%'
     }}>
