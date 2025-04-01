@@ -1,7 +1,14 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, Platform } from 'react-native';
 
-const SolidButton = ({ color, textColor,text, onPress }) => {
+interface SolidButtonProps {
+    color: string;
+    textColor: string;
+    text: string;
+    onPress: () => void;
+}
+
+const SolidButton: React.FC<SolidButtonProps> = ({ color, textColor, text, onPress }) => {
     return (
         <TouchableOpacity style={[styles.button, { backgroundColor: color }]} onPress={onPress}>
             <Text style={[styles.buttonText, { color: textColor }]}>{text}</Text>
@@ -20,21 +27,21 @@ const styles = StyleSheet.create({
         padding: 10,
         ...Platform.select({
             ios: {
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.25,
-            shadowRadius: 2,
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.25,
+                shadowRadius: 2,
             },
             android: {
-            elevation: 5,
+                elevation: 5,
             },
         }),
     },
     buttonText: {
         textAlign: 'center',
-        width:'100%',
+        width: '100%',
         fontSize: 16,
-        fontFamily: 'Poppins-SemiBold'
+        fontFamily: 'Poppins-SemiBold',
     },
 });
 
