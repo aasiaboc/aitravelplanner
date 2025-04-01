@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "date-fns": "^4.1.0",
+    "react-native-calendar-picker": "^8.0.5"
+  }
+}

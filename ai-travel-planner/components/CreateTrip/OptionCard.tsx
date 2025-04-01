@@ -10,17 +10,17 @@ interface OptionCardProps {
     desc: string;
     icon: string;
   };
-  selectedTraveler?: {
+  selectedOption?: {
     id: string;
   };
 }
 
-export default function OptionCard({ option, selectedTraveler }: OptionCardProps) {
+export default function OptionCard({ option, selectedOption }: OptionCardProps) {
   return (
     <View
       style={[
         styles.container,
-        selectedTraveler?.id === option?.id && {
+        selectedOption?.id === option?.id && {
           borderWidth: 1,
           borderColor: Colors.primary,
         },

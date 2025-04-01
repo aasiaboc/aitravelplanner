@@ -18,13 +18,12 @@ const SolidButton: React.FC<SolidButtonProps> = ({ color, textColor, text, onPre
 
 const styles = StyleSheet.create({
     button: {
-        marginTop: 15,
-        width: 330,
+        marginTop: 30,
+        width: '100%',
         borderRadius: 30,
-        height: 42,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 10,
+        padding: 12,
         ...Platform.select({
             ios: {
                 shadowColor: '#000',
@@ -39,9 +38,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         textAlign: 'center',
-        width: '100%',
         fontSize: 16,
-        fontFamily: 'Poppins-SemiBold',
+        fontFamily: 'poppins-semibold',
     },
 });
 
