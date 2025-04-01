@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Platform, ToastAndroid } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { router, useNavigation } from "expo-router";
 import { SelectTravelerOptions } from "@/constants/Options";
@@ -6,6 +6,7 @@ import OptionCard from "@/components/CreateTrip/OptionCard";
 import { CreateTripContext } from "@/context/CreateTripContext";
 import { Colors } from "@/constants/Colors";
 import SolidButton from "@/components/SolidButton";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function SelectTraveler() {
   const navigation = useNavigation();
@@ -21,6 +22,12 @@ export default function SelectTraveler() {
       headerShown: true,
       headerTransparent: true,
       headerTitle: "",
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 10 }}>
+          <Ionicons name="chevron-back" size={24} color="black" />
+          
+        </TouchableOpacity>
+      ),
     });
   }, []);
 
@@ -33,11 +40,22 @@ export default function SelectTraveler() {
     console.log("tripData", tripData);
   }, [tripData]);
 
+  const onTravelerSelectionContinue = () => {
+    if (!selectedTraveler) {
+      alert("Please select a traveler");
+      ToastAndroid.show(
+        "Please select a traveler",
+        ToastAndroid.SHORT,
+      );
+      return;
+    }
+    router.push("../create-trip/select-dates");
+  };
   return (
     <View
       style={{
         padding: 25,
-        paddingTop: 40,
+        paddingTop: Platform.OS === "android" ? 60 : 100,
         height: "100%",
         backgroundColor: "#fff",
       }}
@@ -63,7 +81,7 @@ export default function SelectTraveler() {
         </Text>
         <FlatList
           data={SelectTravelerOptions}
-  keyExtractor={(item) => item.id.toString()} // Ensure `id` is converted to a string
+          keyExtractor={(item) => item.id.toString()} // Ensure `id` is converted to a string
           renderItem={({ item, index }) => (
             <TouchableOpacity onPress={() => setSelectedTraveler({ ...item, id: item.id.toString() })}>
               <OptionCard option={{ ...item, id: item.id.toString() }} selectedOption={selectedTraveler} />
@@ -75,7 +93,8 @@ export default function SelectTraveler() {
         color={Colors.primary} 
         textColor={Colors.white} 
         text={"Continue"} 
-        onPress={() => router.push("../create-trip/select-dates")}
+        onPress={onTravelerSelectionContinue}
+        // onPress={() => router.push("../create-trip/select-dates")}
       />
     </View>
   );

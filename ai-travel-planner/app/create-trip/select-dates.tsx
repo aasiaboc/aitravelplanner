@@ -1,4 +1,4 @@
-import { View, Text, Touchable, TouchableOpacity, ToastAndroid } from "react-native";
+import { View, Text, Touchable, TouchableOpacity, ToastAndroid, Platform } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { router, useNavigation, useRouter } from "expo-router";
 import CalendarPicker from "react-native-calendar-picker";
@@ -6,6 +6,7 @@ import { Colors } from "@/constants/Colors";
 import moment from 'moment';
 import { CreateTripContext } from "@/context/CreateTripContext";
 import SolidButton from "@/components/SolidButton";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function SelectDates() {
     const navigation = useNavigation();
@@ -21,6 +22,12 @@ export default function SelectDates() {
             headerShown: true,
             headerTransparent: true,
             headerTitle: "",
+            headerLeft: () => (
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 10 }}>
+                  <Ionicons name="chevron-back" size={24} color="black" />
+                  
+                </TouchableOpacity>
+              ),
         }); 
     }, [navigation]);
 
@@ -41,6 +48,7 @@ export default function SelectDates() {
                 "Please select a start and end date",
                 ToastAndroid.LONG
             );
+            alert("Please select a start and end date");
             return;
         }
         const totalDays = (endDate?.diff(startDate, 'days')+1);
@@ -59,7 +67,7 @@ export default function SelectDates() {
         <View
             style={{
                 padding: 25,
-                paddingTop: 40,
+                paddingTop: Platform.OS === "android" ? 60 : 100,
                 height: "100%",
                 backgroundColor: "#fff",
             }}

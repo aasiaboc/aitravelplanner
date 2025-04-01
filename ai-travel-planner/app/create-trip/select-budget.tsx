@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Touchable, TouchableOpacity, ToastAndroid } from 'react-native'
+import { View, Text, FlatList, Touchable, TouchableOpacity, ToastAndroid, Platform } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigation, useRouter } from 'expo-router';
 import SolidButton from '@/components/SolidButton';
@@ -6,6 +6,7 @@ import { Colors } from '@/constants/Colors';
 import { SelectBudgetOptions } from '@/constants/Options';
 import OptionCard from '@/components/CreateTrip/OptionCard';
 import { CreateTripContext } from '@/context/CreateTripContext';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function SelectBudget() {
     const navigation = useNavigation();
@@ -14,6 +15,12 @@ export default function SelectBudget() {
             headerShown: true,
             headerTransparent: true,
             headerTitle: "",
+            headerLeft: () => (
+                <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 10 }}>
+                  <Ionicons name="chevron-back" size={24} color="black" />
+                  
+                </TouchableOpacity>
+              ),
         }); 
     }, [navigation]);
 
@@ -36,13 +43,13 @@ export default function SelectBudget() {
             );
             return;
         }
-        router.push("/create-trip/select-traveler");
+        router.push("../create-trip/review-trip");
     }
 
     return (
     <View style={{
         padding: 25,
-        paddingTop: 40,
+        paddingTop: Platform.OS === "android" ? 60 : 100,
         height: "100%",
         backgroundColor: "#fff",
     }}>
