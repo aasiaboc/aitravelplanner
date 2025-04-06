@@ -168,7 +168,7 @@ export default function ReviewTrip() {
                 color={Colors.primary} 
                 textColor={Colors.white} 
                 text={"Build My Trip"} 
-                onPress={() => router.push("../(tabs)/mytrip")}
+                onPress={() => router.replace("../create-trip/generate-trip")}
             />
     </View>
   )
