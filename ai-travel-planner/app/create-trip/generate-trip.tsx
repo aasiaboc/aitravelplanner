@@ -10,11 +10,12 @@ import { auth,db} from '@/configs/FirebaseConfig'; // Import your Firebase confi
 export default function GenerateTrip() {
   const tripContext = useContext(CreateTripContext);
   if (!tripContext) return null;
-
   const { tripData, setTripData } = tripContext;
+
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const user = auth.currentUser;
+
   useEffect(() => {
     if (tripData) {
       GenerateAiTrip();
@@ -27,8 +28,7 @@ export default function GenerateTrip() {
       .replace('{location}', tripData?.locationInfo?.name)
       .replace('{totalDays}', tripData?.totalDays)
       .replace('{totalNight}', (tripData?.totalDays - 1).toString())
-      .replace('{totalDays}', tripData?.totalDays)
-      .replace('{totalNight}', (tripData?.totalDays - 1).toString())
+      .replace('{titleTraveler}', tripData?.travelerCount?.title)
       .replace('{traveler}', tripData?.travelerCount?.title)
       .replace('{budget}', tripData?.budget);
 
@@ -55,12 +55,16 @@ export default function GenerateTrip() {
       throw new Error('No valid JSON found in the response');
       }
 
-const tripResponse = JSON.parse(match[0]);      const docId = Date.now().toString();
+      const tripResponse = JSON.parse(match[0]);      
+      const docId = Date.now().toString();
 
       await setDoc(doc(db, 'UserTrips', docId), {
         userEmail: user?.email,
-        tripPlan: tripResponse,
+        tripPlan: tripResponse, //ai result
+        tripData: JSON.stringify(tripData), //user input
+        docId: docId,
       });
+
 
       setLoading(false);
       router.push('../(tabs)/mytrip');
