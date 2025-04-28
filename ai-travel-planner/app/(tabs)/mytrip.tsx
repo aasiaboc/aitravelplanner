@@ -8,14 +8,14 @@ import { auth, db } from './../../configs/FirebaseConfig';
 import UserTripList from '@/components/MyTrips/UserTripList';
 
 interface UserTrip {
-  tripPlan: {
-    Location?: string;
-    title?: string;
-    [key: string]: any;
+  tripData: string;
+  tripPlan?: {
+    tripPlan?: {
+      Location?: string;
+      startDate?: string;
+      travelers?: string;
+    };
   };
-  startDate: string;
-  endDate: string;
-  [key: string]: any;
 }
 
 export default function MyTrip() {

@@ -3,12 +3,13 @@ import React from 'react';
 import { Colors } from '@/constants/Colors';
 import moment from 'moment';
 import UserTripCard from './UserTripCard';
+import { useRouter } from 'expo-router';
 
 interface UserTrip {
   tripData: string;
   tripPlan?: {
     tripPlan?: {
-      Location?: string;
+      location?: string;
       startDate?: string;
       travelers?: string;
     };
@@ -18,7 +19,7 @@ interface UserTrip {
 export default function UserTripList({ userTrips }: {userTrips: UserTrip[]}) {
 
   const LatestTrip = JSON.parse(userTrips[0].tripData);
-
+  const router=useRouter();
   return userTrips&&(
     <View>
       <View style={{ marginTop: 5 }}>
@@ -38,7 +39,7 @@ export default function UserTripList({ userTrips }: {userTrips: UserTrip[]}) {
         />
        : 
         <Image
-          source={require('./../../assets/images/default.jpeg')}
+          source={require('./../../assets/images/placeDefaultImage.jpeg')}
           style={{
             width: '100%',
             height: 240,
@@ -57,7 +58,7 @@ export default function UserTripList({ userTrips }: {userTrips: UserTrip[]}) {
               color: Colors.black,
             }}
           >
-            {userTrips[0].tripPlan?.tripPlan?.Location || 'No location available'}
+            {userTrips[0].tripPlan?.tripPlan?.location || 'No location available'}
           </Text>
           <View
             style={{
@@ -75,6 +76,9 @@ export default function UserTripList({ userTrips }: {userTrips: UserTrip[]}) {
           </View>
 
           <TouchableOpacity
+            onPress={() => router.push({pathname: '/trip-details', params: {
+              trip: JSON.stringify(userTrips[0]),
+            }})}
             style={{
               backgroundColor: Colors.primary,
               padding: 10,

@@ -7,7 +7,7 @@ interface Trip {
   tripData: string;
   tripPlan?: {
     tripPlan?: {
-      Location?: string;
+      location?: string;
       startDate?: string;
       travelers?: string;
     };
@@ -27,7 +27,8 @@ export default function UserTripCard({ trip }: { trip: Trip }) {
         alignItems: 'center',
     }}>
       <Image
-        source={{ uri: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference='
+        source={{ uri: 
+          'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference='
           +formatData(trip.tripData).locationInfo?.photoRef
           +'&key='
           +process.env.EXPO_PUBLIC_GOOGLE_MAP_KEY 
@@ -43,7 +44,7 @@ export default function UserTripCard({ trip }: { trip: Trip }) {
             fontSize: 18,
             fontFamily: 'poppins-medium',
         }}>
-          {trip.tripPlan?.tripPlan?.Location || 'No location available'}
+          {trip.tripPlan?.tripPlan?.location || 'No location available'}
         </Text>
         <Text
           style={{

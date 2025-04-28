@@ -81,21 +81,6 @@ export default function SignIn() {
   const [isPasswordVisible, setIsPasswordVisible] = React.useState(false);
 
   const [isSubmitted, setIsSubmitted] = React.useState(false);
-  // const handleSignIp = () => {
-  //   setIsSubmitted(true); // Mark form as submitted
-  //   if (
-  //     email.length === 0 ||
-  //     password.length === 0
-  //   ) {
-  //     return; // Prevents further execution if any field is empty
-  //   }
-  //   if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-  //     return; // Prevents sign-up if email format is invalid
-  //   }
-  //   if (password.length === 0) {
-  //     return; // Prevents further execution if password is empty
-  //   }
-  // };
 
   return (
     <SafeAreaView style={styles.container}>

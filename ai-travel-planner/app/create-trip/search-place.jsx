@@ -31,8 +31,6 @@ export default function SearchPlace() {
       ),
     });
   }, []);
-  console.log('Details:', details);
-  console.log('Photos:', details?.photos);
   
   useEffect(() => {
     console.log("tripData", tripData);
