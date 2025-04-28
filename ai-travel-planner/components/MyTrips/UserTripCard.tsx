@@ -1,7 +1,8 @@
-import { View, Image, Text } from 'react-native';
+import { View, Image, Text, Touchable, TouchableOpacity } from 'react-native';
 import React from 'react';
 import moment from 'moment';
 import { Colors } from '@/constants/Colors';
+import { router } from 'expo-router';
 
 interface Trip {
   tripData: string;
@@ -18,8 +19,15 @@ export default function UserTripCard({ trip }: { trip: Trip }) {
   const formatData = (data: string) => {
     return JSON.parse(data);
   }
+  const parsedTripData = JSON.parse(trip.tripData);
+  const travelerTitle = parsedTripData.travelerCount?.title || 'No title available';
+
   return (
-    <View style={{ 
+    <TouchableOpacity 
+    onPress={() => router.push({pathname: '/trip-details', params: {
+      trip: JSON.stringify(trip),
+    }})}
+    style={{ 
         marginTop: 20, 
         display: 'flex',
         flexDirection: 'row',
@@ -62,9 +70,9 @@ export default function UserTripCard({ trip }: { trip: Trip }) {
                 color: Colors.grey,    
             }}
         >
-            Traveling: {trip.tripPlan?.tripPlan?.travelers || '---'}
+            Traveling: {travelerTitle || '---'}
         </Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }

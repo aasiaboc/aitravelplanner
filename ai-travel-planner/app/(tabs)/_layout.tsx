@@ -20,14 +20,6 @@ export default function TabLayout() {
               size={24} color={color} />  ,
           }}
         />
-        <Tabs.Screen name="discover"
-          options={{
-            tabBarLabel: 'Discover',
-            tabBarIcon: ({color}) =>
-              <Feather name="globe" 
-              size={24} color={color} />
-          }}
-        />
         <Tabs.Screen name="profile"
           options={{
             tabBarLabel: 'Profile',

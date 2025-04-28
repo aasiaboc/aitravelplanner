@@ -1,4 +1,4 @@
-import { View, Text, Platform, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, Platform, ActivityIndicator, ScrollView, TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -6,6 +6,7 @@ import StartNewTripCard from '@/components/MyTrips/StartNewTripCard';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { auth, db } from './../../configs/FirebaseConfig';
 import UserTripList from '@/components/MyTrips/UserTripList';
+import { router } from 'expo-router';
 
 interface UserTrip {
   tripData: string;
@@ -67,7 +68,9 @@ export default function MyTrip() {
         >
           My Trip
         </Text>
-        <Ionicons name="add-circle-outline" size={35} color="black" />
+        <TouchableOpacity onPress={() => router.push('/create-trip/search-place')}>
+          <Ionicons name="add-circle-outline" size={35} color="black" />
+        </TouchableOpacity>
       </View>
 
       {loading && <ActivityIndicator size="large" color={Colors.primary} />}

@@ -1,29 +1,36 @@
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Image } from 'react-native'
 import React, { useEffect } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
+import { Colors } from '@/constants/Colors';
 
 export default function About() {
   const router = useRouter();
     const navigation = useNavigation(); 
     useEffect(() => {
         navigation.setOptions({
-            headerShown: true,
-            headerTransparent: true, 
-            headerTitle: '',
-            
-                   
-        })
-        
-    }, [])
+          headerShown: true,
+          headerTransparent: true,
+          headerTitle: "",
+          headerTitleAlign: "center",
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => navigation.goBack()}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons name="chevron-back" size={24} color="black" />
+            </TouchableOpacity>
+          ),
+        });
+      }, []);
   return (
     <View style={styles.container}>
 
-      <ScrollView style={styles.content}>
+      <View style={styles.content}>
         <View style={styles.logoContainer}>
-          <View style={styles.logoPlaceholder}>
-            <Text style={styles.logoText}>AI Travel</Text>
-          </View>
+          <Image 
+            source={require('../../assets/images/icon.png')} 
+            style={styles.logoPlaceholder} />
           <Text style={styles.appName}>AI Travel Planner</Text>
           <Text style={styles.version}>Version 1.0.0</Text>
         </View>
@@ -60,7 +67,7 @@ export default function About() {
         <View style={styles.footer}>
           <Text style={styles.footerText}>© 2025 AI Travel Planner. All rights reserved.</Text>
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 };
@@ -68,7 +75,8 @@ export default function About() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f3f3f3',
+    marginHorizontal: 15,
   },
   header: {
     flexDirection: 'row',
@@ -98,10 +106,12 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 20,
-    backgroundColor: '#1E5B8D',
+    backgroundColor:'#fff',
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 15,
+    
+    
   },
   logoText: {
     color: 'white',

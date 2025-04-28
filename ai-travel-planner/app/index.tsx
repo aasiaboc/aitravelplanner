@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Animated, StyleSheet } from "react-native";
-import Login from "./../components/Login";
-import SplashScreen from "../components/SplashScreen";
+import Login from "../components/LandingPage";
+import SplashScreen from "../components/SplashVideo";
 import { Colors } from '../constants/Colors';
 import { auth } from "@/configs/FirebaseConfig";
 import { Redirect } from "expo-router";

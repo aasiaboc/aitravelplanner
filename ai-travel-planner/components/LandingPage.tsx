@@ -14,17 +14,18 @@ export default function Login() {
           flex: 1,
           width: '100%',
           height: '100%'
+
       }}
     >
       <View style={{
         flex:1,
-        width:'100%',
-        alignItems:'center',
+        width:'90%',
+        alignSelf:'center',
         marginTop: 510,
       }}>
         <Text style={{
             fontSize: 50,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: 'poppins-semibold',
             textAlign: 'center',
             color:'white',
             paddingVertical: 10,
@@ -35,7 +36,7 @@ export default function Login() {
         </Text>
         <Text style={{
             fontSize: 12,
-            fontFamily: 'Poppins-Light',
+            fontFamily: 'poppins-light',
             textAlign: 'center',
             color:'white',
             paddingVertical: 10,
@@ -48,7 +49,7 @@ export default function Login() {
         </Text>
         <Text style={{
             fontSize: 14,
-            fontFamily: 'Poppins-Bold',
+            fontFamily: 'poppins-bold',
             textAlign: 'center',
             color:'white',
             paddingVertical: 10,

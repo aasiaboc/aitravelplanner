@@ -139,7 +139,7 @@ export default function SignIn() {
       }}>
         <TextInput
           style={{
-            fontFamily: 'Poppins-Regular',
+            fontFamily: 'poppins-regular',
             fontSize: 14,
             flex: 1, 
           }}
@@ -161,17 +161,19 @@ export default function SignIn() {
       {isSubmitted && password.length === 0 && (
         <Text style={styles.errorText}>Password is required.</Text>
       )}
-
-      <Text style={{
-        fontSize: 14,
-        fontFamily: 'Poppins-Medium',
-        marginTop: 10,
-        color: Colors.grey,
-        alignSelf: 'flex-end'
-        // onPress
-      }}>
-      Forgot Password?
-      </Text>
+      <TouchableOpacity onPress={() => router.push('/(auth)/forgot-password')}>
+        <Text style={{
+          fontSize: 14,
+          fontFamily: 'poppins-medium',
+          marginTop: 10,
+          color: Colors.grey,
+          alignSelf: 'flex-end'
+          
+        }}>
+        Forgot Password?
+        </Text>
+      </TouchableOpacity>
+      
 
       {/* Sign in btn */}
       <TouchableOpacity onPress={onSignIn} style={{
@@ -182,7 +184,7 @@ export default function SignIn() {
         alignItems: 'center',
       }}>
         <Text style={{
-          fontFamily: 'Poppins-SemiBold',
+          fontFamily: 'poppins-semibold',
           fontSize: 16,
           color: Colors.white,
         }}>Sign In</Text>
@@ -196,13 +198,13 @@ export default function SignIn() {
         marginTop: 15,
       }}>
         <Text style={{
-          fontFamily: 'Poppins-Medium',
+          fontFamily: 'poppins-medium',
           fontSize: 14,
           color: Colors.grey,
         }}>Don't have an account?</Text>
         <TouchableOpacity onPress={() => router.replace('/(auth)/sign-up')}>
           <Text style={{
-            fontFamily: 'Poppins-Bold',
+            fontFamily: 'poppins-bold',
             fontSize: 14,
             color: Colors.primary,
             marginLeft: 5,
@@ -221,13 +223,13 @@ const styles = {
   },
   title: {
     fontSize: 35,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'poppins-semibold',
     marginTop: 18,
     marginBottom: 10,
   },
   label: {
     fontSize: 16,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'poppins-medium',
     marginTop: 15,
   },
   input: {
@@ -247,7 +249,7 @@ const styles = {
         elevation: 5,
       },
     }),
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'poppins-regular',
     fontSize: 14,
   },
   elevationShadow: {
@@ -284,7 +286,7 @@ const styles = {
   errorText: {
     color: Colors.red,
     fontSize: 12,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'poppins-regular',
     marginTop: 5,
   },
 };

@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Platform } from 'react-native'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { router, useNavigation } from 'expo-router';
 import Entypo from '@expo/vector-icons/Entypo';
 import { CreateTripContext } from '@/context/CreateTripContext';
@@ -7,8 +7,15 @@ import { Colors } from '@/constants/Colors';
 import moment from 'moment';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SolidButton from '@/components/SolidButton';
+import { ai } from '@/configs/AiModal';
+import { doc, setDoc } from 'firebase/firestore';
+import { auth, db } from '@/configs/FirebaseConfig';
+import { AI_PROMPT } from '@/constants/Options';
 
 export default function ReviewTrip() {
+    const [loading, setLoading] = useState(false);
+    const user = auth.currentUser;
+    
     const navigation = useNavigation();
         useEffect(() => {
             navigation.setOptions({
@@ -27,6 +34,66 @@ export default function ReviewTrip() {
     const tripContext = useContext(CreateTripContext);
     if (!tripContext) return null; // Ensure context is available
     const { tripData, setTripData } = tripContext;
+    
+    const GenerateAiTrip = async () => {
+        setLoading(true);
+        const FINAL_PROMPT = AI_PROMPT
+          .replace('{location}', tripData?.locationInfo?.name)
+          .replace('{totalDays}', tripData?.totalDays)
+          .replace('{totalNight}', (tripData?.totalDays - 1).toString())
+          .replace('{titleTraveler}', tripData?.travelerCount?.title)
+          .replace('{traveler}', tripData?.travelerCount?.title)
+          .replace('{budget}', tripData?.budget);
+    
+        console.log('FINAL_PROMPT', FINAL_PROMPT);
+    
+    
+        try {
+          const response = await ai.models.generateContent({
+            model: 'gemini-2.0-flash',
+            contents: [
+              {
+                role: 'user',
+                parts: [{ text: FINAL_PROMPT }],
+              },
+            ],
+          });
+    
+          const text = await response.text;
+          console.log('Raw Gemini response:', text);
+    
+          // Extract JSON block from Gemini's response using regex
+          const match = text?.match(/\{[\s\S]*\}/);
+          if (!match) {
+          throw new Error('No valid JSON found in the response');
+          }
+    
+          const tripResponse = JSON.parse(match[0]);      
+          const docId = Date.now().toString();
+    
+          await setDoc(doc(db, 'UserTrips', docId), {
+            userEmail: user?.email,
+            tripPlan: tripResponse, //ai result
+            tripData: JSON.stringify(tripData), //user input
+            docId: docId,
+          });
+    
+    
+          setLoading(false);
+          router.push('../(tabs)/mytrip');
+        } catch (error: any) {
+            setLoading(false);
+            console.error('Failed to generate trip:', error);
+          
+            if (error?.message?.includes('503')) {
+              alert('Our servers are currently busy. Please try again after a few seconds.');
+            } else {
+              alert('Failed to generate trip. Please try again.');
+            }
+          }
+          
+
+      }; 
 
     return (
     <View style={{
@@ -167,8 +234,8 @@ export default function ReviewTrip() {
             <SolidButton 
                 color={Colors.primary} 
                 textColor={Colors.white} 
-                text={"Build My Trip"} 
-                onPress={() => router.replace("../create-trip/generate-trip")}
+                text={loading ? "Generating..." : "Generate Trip"}
+                onPress={GenerateAiTrip}
             />
     </View>
   )

@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation, useRouter } from 'expo-router';
 import React, { useState, useEffect  } from 'react'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import {createUserWithEmailAndPassword } from "firebase/auth";
+import {createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from '../../../configs/FirebaseConfig';
 
 export default function SignUp() {
@@ -60,7 +60,8 @@ export default function SignUp() {
   // };
 
   const onCreateAccount = () => {
-    setIsSubmitted(true); // Mark form as submitted
+    setIsSubmitted(true);
+
     if (
       name.length === 0 ||
       email.length === 0 ||
@@ -69,36 +70,38 @@ export default function SignUp() {
     ) {
       alert('Please fill in all fields.');
       ToastAndroid.show('Please fill in all fields.', ToastAndroid.SHORT);
-      return; // Prevents further execution if any field is empty
+      return;
     }
     if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-      return; // Prevents sign-up if email format is invalid
-    }
-    if (password.length === 0) {
-      return; // Prevents further execution if password is empty
+      return;
     }
     if (password.length < 8) {
-      return; // Prevents sign-up if password is too short
+      return;
     }
     if (confirmPassword !== password) {
-      return; // Prevents sign-up if passwords don’t match
+      return;
     }
 
     createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed up 
-      const user = userCredential.user;
-      router.replace('/(tabs)/mytrip');
-      console.log(user);
-      
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-      // ..
-    });
+      .then((userCredential) => {
+        const user = userCredential.user;
+
+        // Update user profile with the name after account creation
+        updateProfile(user, {
+          displayName: name
+        }).then(() => {
+          console.log('User profile updated with name:', name);
+          router.replace('/(tabs)/mytrip');
+        }).catch((error) => {
+          console.error("Error updating profile:", error.message);
+        });
+
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
   };
 
   return (
@@ -187,7 +190,7 @@ export default function SignUp() {
       >
         <TextInput
           style={{
-            fontFamily: "Poppins-Regular",
+            fontFamily: "poppins-regular",
             fontSize: 14,
             flex: 1,
           }}
@@ -239,7 +242,7 @@ export default function SignUp() {
       >
         <TextInput
           style={{ 
-            fontFamily: "Poppins-Regular", 
+            fontFamily: "poppins-regular", 
             fontSize: 14, 
             flex: 1 
           }}
@@ -276,7 +279,7 @@ export default function SignUp() {
         alignItems: 'center',
       }}>
         <Text style={{
-          fontFamily: 'Poppins-SemiBold',
+          fontFamily: 'poppins-semibold',
           fontSize: 16,
           color: Colors.white,
         }}>Sign In</Text>
@@ -290,13 +293,13 @@ export default function SignUp() {
         marginTop: 15,
       }}>
         <Text style={{
-          fontFamily: 'Poppins-Medium',
+          fontFamily: 'poppins-medium',
           fontSize: 14,
           color: Colors.grey,
         }}>Already have an account?</Text>
         <TouchableOpacity onPress={() => router.replace('/(auth)/sign-in')}>
           <Text style={{
-            fontFamily: 'Poppins-Bold',
+            fontFamily: 'poppins-bold',
             fontSize: 14,
             color: Colors.primary,
             marginLeft: 5,
@@ -317,13 +320,13 @@ const styles = {
   },
   title: {
     fontSize: 35,
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'poppins-semibold',
     marginTop: 18,
     marginBottom: 10,
   },
   label: {
     fontSize: 16,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'poppins-medium',
     marginTop: 15,
   },
   input: {
@@ -343,11 +346,8 @@ const styles = {
         elevation: 5,
       },
     }),
-
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'poppins-regular',
     fontSize: 14,
-    
-    
   },
   elevationShadow: {
     ...Platform.select({
@@ -383,7 +383,7 @@ const styles = {
   errorText: {
     color: Colors.red,
     fontSize: 12,
-    fontFamily: 'Poppins-Regular',
+    fontFamily: 'poppins-regular',
     marginTop: 5,
   },
 };

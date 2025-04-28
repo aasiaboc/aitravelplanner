@@ -20,6 +20,10 @@ export default function UserTripList({ userTrips }: {userTrips: UserTrip[]}) {
 
   const LatestTrip = JSON.parse(userTrips[0].tripData);
   const router=useRouter();
+
+  const parsedTripData = JSON.parse(userTrips[0].tripData);
+  const travelerTitle = parsedTripData.travelerCount?.title || 'No title available';
+
   return userTrips&&(
     <View>
       <View style={{ marginTop: 5 }}>
@@ -71,7 +75,7 @@ export default function UserTripList({ userTrips }: {userTrips: UserTrip[]}) {
               {moment(LatestTrip.startDate).format('MMMM Do YYYY')}
             </Text>
             <Text style={{ fontSize: 16, fontFamily: 'poppins-regular' }}>
-              🚌 {userTrips[0].tripPlan?.tripPlan?.travelers || 'No title available'}
+              🚌 {travelerTitle}
             </Text>
           </View>
 

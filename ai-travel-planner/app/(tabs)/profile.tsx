@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Alert, Platform } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import { signOut } from "firebase/auth";
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, ScrollView, Alert, Platform, ImageBackground, RefreshControl } from 'react-native';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../configs/FirebaseConfig"; // Import from your existing firebase config
 import { useRouter } from 'expo-router';
@@ -11,15 +11,16 @@ type UserProfile = {
   displayName: string;
   email: string;
   photoURL: string | null;
-  bio: string | null;
-  joinedDate: string;
-  tripsCount: number;
+  joinedDate: string; 
 };
 
 const ProfileScreen = ({ navigation }: { navigation: any }) => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter()
+  const [refreshing, setRefreshing] = useState(false)
+  const [user, setUser] = useState(auth.currentUser)
+
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -33,9 +34,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
               displayName: userData.displayName || auth.currentUser.displayName || 'Traveler',
               email: auth.currentUser.email || '',
               photoURL: userData.photoURL || auth.currentUser.photoURL,
-              bio: userData.bio || 'No bio available',
               joinedDate: userData.joinedDate || 'April 2025',
-              tripsCount: userData.tripsCount || 2,
             });
           } else {
             // If no user document exists yet, use auth data
@@ -43,9 +42,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
               displayName: auth.currentUser.displayName || 'Traveler',
               email: auth.currentUser.email || '',
               photoURL: auth.currentUser.photoURL,
-              bio: 'No bio available',
               joinedDate: 'April 2025',
-              tripsCount: 2,
             });
           }
         }
@@ -72,26 +69,72 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
     router.push('/profile/about');
 
   };
+  const handleProfile = () => {
+    router.push('/profile/edit-profile');
+
+  };
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    onAuthStateChanged(auth, (user) => {
+      setUser(user)
+      setRefreshing(false)
+    })
+  }, [])
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Profile</Text>
-
-      </View>
-
-      <ScrollView style={styles.content}>
-        <View style={styles.profileSection}>
-          <Image 
-            source={profile?.photoURL ? { uri: profile.photoURL } : require('../../assets/images/defaultprofile.png')} 
-            style={styles.profileImage} 
-          />
-          <Text style={styles.profileName}>{profile?.displayName}</Text>
-          <Text style={styles.profileEmail}>{profile?.email}</Text>
-        </View>
+      <ScrollView 
+      // style={styles.content}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }    
+      >
+        <ImageBackground 
+          source={require('../../assets/images/login.png')} 
+          style={{ 
+            width: '100%', 
+            height: 300,
+            borderBottomLeftRadius: 40,
+            borderBottomRightRadius: 40,
+            overflow: 'hidden',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.5,
+            shadowRadius: 3.84,
+            elevation: 5,
+          }} 
+          resizeMode="cover">
+          <View style={styles.profileSection}>
+          <View style={styles.profileImageContainer}>
+              {user?.photoURL ? (
+                <Image source={{ uri: user.photoURL }} style={styles.profileImage} />
+              ) : (
+                <View style={styles.profileImageFallback}>
+                  <Text style={styles.profileImageFallbackText}>{user?.displayName?.charAt(0) || "U"}</Text>
+                </View>
+              )}
+            </View>
+            
+            <Text style={styles.profileName}>{profile?.displayName}</Text>
+            <Text style={styles.profileEmail}>{profile?.email}</Text>
+          </View>
+        </ImageBackground>
+        
 
         <View style={styles.menuSection}>
           
+          <TouchableOpacity style={styles.menuItem} onPress={handleProfile}>
+            <View style={styles.menuIconContainer}>
+              <AntDesign name="user" size={24} color="#1E5B8D" />
+            </View>
+            <Text style={styles.menuText}>Edit Profile</Text>
+            <Ionicons name="chevron-forward" size={20} color="#999" />
+          </TouchableOpacity>
+        
           <TouchableOpacity style={styles.menuItem} onPress={handleAbout}>
             <View style={styles.menuIconContainer}>
               <Ionicons name="information-circle-outline" size={22} color="#1E5B8D" />
@@ -117,14 +160,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 25,
-    paddingTop: Platform.OS === 'android' ? 40 : 100,
-
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   header: {
     flexDirection: 'row',
@@ -136,37 +171,28 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontFamily: 'poppins-bold',
   },
-  settingsButton: {
-    padding: 8,
-  },
   content: {
     flex: 1,
   },
   profileSection: {
     alignItems: 'center',
-    paddingVertical: 20,
+    paddingVertical: 70,
   },
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 15,
-  },
+  
   profileName: {
     fontSize: 22,
     fontFamily: 'poppins-bold',
-    marginBottom: 5,
+    color: Colors.white,
   },
   profileEmail: {
-    fontSize: 16,
-    color: Colors.grey,
-    marginBottom: 20,
+    fontSize: 14,
+    color: Colors.white,
     fontFamily: 'poppins-regular',
   },
   
   menuSection: {
     marginTop: 20,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
   },
   menuItem: {
     flexDirection: 'row',
@@ -194,6 +220,32 @@ const styles = StyleSheet.create({
     color: '#E53935',
     fontFamily: 'poppins-regular',
   },
+  profileImageContainer: {
+    position: "relative",
+    marginBottom: 15,
+  },
+  profileImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 3,
+    borderColor: "#fff",
+  },
+  profileImageFallback: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: "#E0E8F3",
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 3,
+    borderColor: "#fff",
+  },
+  profileImageFallbackText: {
+    fontSize: 40,
+    fontFamily: "Poppins-Bold",
+    color: "#3A66C5",
+  }
   
 });
 

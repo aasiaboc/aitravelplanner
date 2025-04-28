@@ -59,7 +59,7 @@ export const AI_PROMPT='Generate Travel Plan for Location : {location}, for {tot
 +'and places to visit nearby with PlaceName, Place Details, Place Image Url, Geo Coordinates, ticket pricing. time t travel each of the location for {totalDays} days and {totalNight} night '
 +'with daily itinerary. Respond ONLY with valid JSON format. Do not add any other text or explanation. Convert to Philippine Peso (PHP) for the currency. flights should be based on the location of the user and the location of the trip. '
 
-+'The JSON should have the following structure: { "tripPlan": { "Location", "travelers", "duration", "budget" ,'
++'The JSON should have the following structure: { "tripPlan": { "location", "travelers", "duration", "budget" ,'
 +'"flight": { "flightDetails": [ { "flightName": "", "flightPrice": "", "bookingUrl": "" } ], }, '
 +'"hotels": [ { "hotelName": "", "hotelAddress": "", "hotelPrice": "", "hotelImageUrl": "", "geoCoordinates": "", "rating": "", "description": "" } ], '
 +'"itinerary": [ { "placeName": "", "placeDetails": "", "placeImageUrl": "", "geoCoordinates": "", "ticketPricing": "","timeOpen": "", "bestTime": "" } ], }, } '
