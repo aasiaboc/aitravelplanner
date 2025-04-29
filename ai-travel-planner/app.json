@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "SuroyAI",
-    "slug": "ai-travel-planner",
+    "slug": "suroyai",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -41,7 +41,7 @@
       }
     },
     "splash": {
-      "image": "./assets/images/icon.png",
+      "image": "./assets/images/adaptive-icon.png",
       "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
