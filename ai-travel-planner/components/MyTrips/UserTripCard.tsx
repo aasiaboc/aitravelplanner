@@ -52,7 +52,9 @@ export default function UserTripCard({ trip }: { trip: Trip }) {
           borderRadius: 20,
         }}
       />
-      <View>
+      <View style={{
+        width: '50%',
+      }}>
         <Text style={{
             fontSize: 18,
             fontFamily: 'poppins-medium',

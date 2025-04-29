@@ -25,7 +25,7 @@ export default function About() {
         });
       }, []);
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
 
       <View style={styles.content}>
         <View style={styles.logoContainer}>
@@ -70,7 +70,7 @@ export default function About() {
           <Text style={styles.footerText}>© 2025 SuroyAI. All rights reserved.</Text>
         </View>
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 

@@ -48,7 +48,7 @@ export default function MyTrip() {
     <ScrollView
       style={{
         padding: 25,
-        paddingTop: Platform.OS === 'android' ? 40 : 100,
+        paddingTop: Platform.OS === 'android' ? 20 : 100,
         backgroundColor: Colors.white,
         height: '100%',
       }}

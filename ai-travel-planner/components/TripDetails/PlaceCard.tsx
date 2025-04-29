@@ -92,7 +92,7 @@ export default function PlaceCard({ place }: any) {
           <View style={{ width: '85%' }}>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontFamily: 'poppins-regular',
                 marginTop: 5,
               }}
@@ -101,7 +101,7 @@ export default function PlaceCard({ place }: any) {
             </Text>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 fontFamily: 'poppins-regular',
                 marginTop: 5,
               }}

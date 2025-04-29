@@ -43,7 +43,7 @@ export default function UserTripList({ userTrips }: { userTrips: UserTrip[] }) {
 
   return trips && (
     <View>
-      <View style={{ marginTop: 5 }}>
+      <View style={{ marginTop: 5, marginBottom: 80 }}>
         {LatestTrip?.locationInfo?.photoRef ? (
           <Image
             source={{

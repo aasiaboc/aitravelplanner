@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity, Platform, ToastAndroid } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Platform, ToastAndroid, ScrollView } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import { router, useNavigation } from "expo-router";
 import { SelectTravelerOptions } from "@/constants/Options";
@@ -52,7 +52,7 @@ export default function SelectTraveler() {
     router.push("../create-trip/select-dates");
   };
   return (
-    <View
+    <ScrollView
       style={{
         padding: 25,
         paddingTop: Platform.OS === "android" ? 60 : 100,
@@ -62,7 +62,7 @@ export default function SelectTraveler() {
     >
       <Text
         style={{
-          fontSize: 35,
+          fontSize: 30,
           fontFamily: "poppins-bold",
           marginTop: 10,
         }}
@@ -96,6 +96,6 @@ export default function SelectTraveler() {
         onPress={onTravelerSelectionContinue}
         // onPress={() => router.push("../create-trip/select-dates")}
       />
-    </View>
+    </ScrollView>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { View, Animated, StyleSheet } from "react-native";
-import Login from "../components/LandingPage";
+import Login from "./LandingPage";
 import SplashScreen from "../components/SplashVideo";
 import { Colors } from '../constants/Colors';
 import { auth } from "@/configs/FirebaseConfig";

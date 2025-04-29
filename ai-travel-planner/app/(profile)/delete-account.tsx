@@ -1,9 +1,10 @@
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Platform } from 'react-native'
+import { View, Text, TouchableOpacity, TextInput, StyleSheet, Platform, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../../configs/FirebaseConfig';
 import { Colors } from '@/constants/Colors';
+import { EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
 
 
 export default function DeleteAccount() {
@@ -37,8 +38,56 @@ export default function DeleteAccount() {
   }, []);
 
   const handleDeleteAccount = async () => {
+    if (!password.trim()) {
+      Alert.alert("Error", "Password is required to verify your identity")
+      return
+    }
+
+    if (confirmText !== "DELETE") {
+      Alert.alert("Error", "Please type DELETE to confirm")
+      return
+    }
+
+    Alert.alert(
+      "Delete Account",
+      "Are you absolutely sure you want to delete your account? This action cannot be undone.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: confirmDeleteAccount,
+        },
+      ],
+    )
   }
   const confirmDeleteAccount = async () => {
+    try {
+      setIsLoading(true)
+
+      // Re-authenticate user before deleting account
+      const credential = EmailAuthProvider.credential(user?.email || "", password)
+      await reauthenticateWithCredential(user!, credential);
+
+      // Delete user account
+      await user?.delete()
+
+      Alert.alert("Account Deleted", "Your account has been permanently deleted")
+      router.replace("/(auth)/sign-in")
+    } catch (error) {
+      console.error("Error deleting account:", error)
+
+      if ((error as any).code === "auth/wrong-password") {
+        Alert.alert("Error", "The password is incorrect")
+      } else {
+        Alert.alert("Error", "Failed to delete account. Please try again.")
+      }
+    } finally {
+      setIsLoading(false)
+    }
   }
   return (
     <View style={styles.container}>

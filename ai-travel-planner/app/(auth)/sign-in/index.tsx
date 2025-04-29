@@ -84,7 +84,7 @@ export default function SignIn() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={() => router.back()}>
+      <TouchableOpacity onPress={() => router.replace('/LandingPage')}>
         <MaterialIcons name="arrow-back-ios" size={20} color={Colors.black} />
       </TouchableOpacity>
       <Text style={styles.title}>Sign in</Text>

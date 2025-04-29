@@ -1,6 +1,6 @@
 import { View, Text, Image, ImageBackground } from 'react-native'
 import React from 'react'
-import SolidButton from './SolidButton'
+import SolidButton from '../components/SolidButton'
 import { StyleSheet, Platform } from 'react-native';
 import {useRouter} from 'expo-router'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -21,7 +21,7 @@ export default function Login() {
         flex:1,
         width:'90%',
         alignSelf:'center',
-        marginTop: 510,
+        marginTop: 400,
       }}>
         <Text style={{
             fontSize: 50,
@@ -40,7 +40,7 @@ export default function Login() {
             textAlign: 'center',
             color:'white',
             paddingVertical: 10,
-            paddingHorizontal: 30,
+            // paddingHorizontal: 10,
             lineHeight: 18,
             width: '100%',
 
@@ -53,7 +53,7 @@ export default function Login() {
             textAlign: 'center',
             color:'white',
             paddingVertical: 10,
-            paddingHorizontal: 65,
+            // paddingHorizontal: 65,
             lineHeight: 18,
             width: '100%',
         }}>
