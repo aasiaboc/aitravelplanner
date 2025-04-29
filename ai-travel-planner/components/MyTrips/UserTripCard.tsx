@@ -6,7 +6,7 @@ import { router } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 
 interface Trip {
-  id: string; // <-- added id here
+  id: string; 
   tripData: string;
   tripPlan?: {
     tripPlan?: {

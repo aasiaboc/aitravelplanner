@@ -1,7 +1,7 @@
 import { View, StyleSheet } from 'react-native';
 import React from 'react';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { Video, ResizeMode } from 'expo-av';
+import { Colors } from '@/constants/Colors';
 
 const SplashScreen: React.FC = () => {
     return (
