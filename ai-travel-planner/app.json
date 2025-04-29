@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "SuroyAI",
-    "slug": "suroyai",
+    "slug": "SuroyAI",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -42,7 +42,7 @@
     },
     "splash": {
       "image": "./assets/images/adaptive-icon.png",
-      "resizeMode": "cover",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "owner": "aasiaboc"
