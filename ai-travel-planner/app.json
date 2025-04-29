@@ -39,6 +39,12 @@
       "eas": {
         "projectId": "c36b49ee-e099-43c8-87d9-d301f71b8e7c"
       }
-    }
+    },
+    "splash": {
+      "image": "./assets/images/icon.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff"
+    },
+    "owner": "aasiaboc"
   }
 }
