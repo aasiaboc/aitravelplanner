@@ -21,7 +21,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   }
 }
 
-rootProject.name = 'ai-travel-planner'
+rootProject.name = 'SuroyAI'
 
 dependencyResolutionManagement {
   versionCatalogs {
