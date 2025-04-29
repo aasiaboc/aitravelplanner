@@ -3,12 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Colors } from '@/constants/Colors';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import StartNewTripCard from '@/components/MyTrips/StartNewTripCard';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import { auth, db } from './../../configs/FirebaseConfig';
 import UserTripList from '@/components/MyTrips/UserTripList';
 import { router } from 'expo-router';
 
 interface UserTrip {
+  id: string; // Added id property
   tripData: string;
   tripPlan?: {
     tripPlan?: {
@@ -36,13 +37,13 @@ export default function MyTrip() {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, ' => ', doc.data());
-      setUserTrips((prev) => [...prev, doc.data() as UserTrip]);
+      setUserTrips((prev) => [...prev, { ...(doc.data() as UserTrip), id: doc.id }      ]);
     });
+    
 
     setLoading(false);
   };
-
+  
   return (
     <ScrollView
       style={{

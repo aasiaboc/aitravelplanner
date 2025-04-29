@@ -49,14 +49,19 @@ export default function PlaceCard({ place }: any) {
           height: 140,
           borderRadius: 15,
         }}
-        source={{
-          uri:
-            'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' +
-            photoRef +
-            '&key=' +
-            process.env.EXPO_PUBLIC_GOOGLE_MAP_KEY,
-        }}
+        source={
+          photoRef
+            ? {
+                uri:
+                  'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=' +
+                  photoRef +
+                  '&key=' +
+                  process.env.EXPO_PUBLIC_GOOGLE_MAP_KEY,
+              }
+            : require('@/assets/images/placeDefaultImage.jpeg')
+        }
       />
+
       <View style={{ marginTop: 5 }}>
         <Text
           style={{

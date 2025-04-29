@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { auth } from '../../configs/FirebaseConfig';
+import { Colors } from '@/constants/Colors';
 
 
 export default function DeleteAccount() {
@@ -44,7 +45,7 @@ export default function DeleteAccount() {
 
       <View style={styles.formContainer}>
         <View style={styles.warningContainer}>
-          <Ionicons name="warning" size={40} color="#E53935" style={styles.warningIcon} />
+          <Ionicons name="warning" size={40} color={Colors.red} style={styles.warningIcon} />
           <Text style={styles.warningTitle}>Delete Your Account</Text>
           <Text style={styles.warningText}>
             This action is permanent and cannot be undone. All your data will be permanently deleted.
@@ -131,7 +132,7 @@ const styles = StyleSheet.create({
   warningTitle: {
     fontFamily: "poppins-bold",
     fontSize: 18,
-    color: "#E53935",
+    color: Colors.red,
     marginBottom: 10,
   },
   warningText: {
@@ -167,14 +168,14 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   deleteButton: {
-    backgroundColor: "#E53935",
+    backgroundColor:Colors.red,
     borderRadius: 10,
     paddingVertical: 12,
     alignItems: "center",
     marginTop: 10,
   },
   disabledButton: {
-    backgroundColor: "#F5A5A3",
+    backgroundColor: Colors.red,
   },
   deleteButtonText: {
     fontFamily: "poppins-medium",

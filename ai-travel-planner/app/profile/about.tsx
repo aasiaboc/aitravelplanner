@@ -1,8 +1,9 @@
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, Image } from 'react-native'
 import React, { useEffect } from 'react'
-import { Ionicons } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function About() {
   const router = useRouter();
@@ -24,51 +25,52 @@ export default function About() {
         });
       }, []);
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
 
       <View style={styles.content}>
         <View style={styles.logoContainer}>
           <Image 
             source={require('../../assets/images/icon.png')} 
             style={styles.logoPlaceholder} />
-          <Text style={styles.appName}>AI Travel Planner</Text>
-          <Text style={styles.version}>Version 1.0.0</Text>
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>About AI Travel Planner</Text>
+          <Text style={styles.sectionTitle}>About SuroyAI</Text>
           <Text style={styles.sectionText}>
-            AI Travel Planner is your intelligent travel companion, helping you plan, organize, and remember your journeys around the world. 
-            Create detailed itineraries with AI assistance, save your favorite places, and share your adventures with friends and family.
+          SuroyAi is your ultimate AI-powered travel planner!
+          With just a few taps, SuroyAi helps you create a complete trip itinerary tailored to your destination, travel dates, budget, and companion type.
           </Text>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Features</Text>
           <View style={styles.featureItem}>
-            <Ionicons name="map" size={20} color="#1E5B8D" style={styles.featureIcon} />
-            <Text style={styles.featureText}>AI-powered trip planning</Text>
+            <MaterialCommunityIcons name="airplane" size={24} color="#1E5B8D" style={styles.featureIcon}  />
+            <Text style={styles.featureText}>Get flight recommendations and book instantly through airline websites.</Text>
           </View>
+          
           <View style={styles.featureItem}>
-            <Ionicons name="location" size={20} color="#1E5B8D" style={styles.featureIcon} />
-            <Text style={styles.featureText}>Personalized recommendations</Text>
+            <MaterialCommunityIcons name="bed" size={24} color="#1E5B8D" style={styles.featureIcon} />
+            <Text style={styles.featureText}>Discover top hotels with real images and check their location easily on the map.</Text>
           </View>
+          
           <View style={styles.featureItem}>
-            <Ionicons name="calendar" size={20} color="#1E5B8D" style={styles.featureIcon} />
-            <Text style={styles.featureText}>Smart itinerary management</Text>
+            <MaterialCommunityIcons name="ferris-wheel" size={24} color="#1E5B8D" style={styles.featureIcon} />
+            <Text style={styles.featureText}>Explore must-visit places and attractions based on your preferences.</Text>
           </View>
+
           <View style={styles.featureItem}>
-            <Ionicons name="share-social" size={20} color="#1E5B8D" style={styles.featureIcon} />
-            <Text style={styles.featureText}>Share your adventures</Text>
+            <MaterialCommunityIcons name="map-marker" size={24} color="#1E5B8D" style={styles.featureIcon} />
+            <Text style={styles.featureText}>Navigate quickly by tapping hotel and place cards to view their coordinates in Google Maps.</Text>
           </View>
         </View>
 
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>© 2025 AI Travel Planner. All rights reserved.</Text>
+          <Text style={styles.footerText}>© 2025 SuroyAI. All rights reserved.</Text>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -77,6 +79,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f3f3f3',
     marginHorizontal: 15,
+    
   },
   header: {
     flexDirection: 'row',
@@ -129,6 +132,7 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 30,
+    marginRight: 30,
   },
   sectionTitle: {
     fontSize: 18,

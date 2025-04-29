@@ -67,15 +67,16 @@ export default function TripDetails() {
         
     }
     , []);
+    const defaultImage = require('../../assets/images/placeDefaultImage.jpeg');
+
   return tripDetails && (
     <ScrollView>
         <Image
-            source={{ uri: 
-            'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference='
-            +formatData(tripDetails?.tripData).locationInfo?.photoRef
-            +'&key='
-            +process.env.EXPO_PUBLIC_GOOGLE_MAP_KEY 
-            }}
+            source={{
+                uri: formatData(tripDetails?.tripData).locationInfo?.photoRef
+                  ? `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${formatData(tripDetails?.tripData).locationInfo?.photoRef}&key=${process.env.EXPO_PUBLIC_GOOGLE_MAP_KEY}`
+                  : defaultImage,
+              }}
         style={{
             width: '100%',
             height: 330,

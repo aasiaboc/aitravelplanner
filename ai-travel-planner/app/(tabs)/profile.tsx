@@ -6,6 +6,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../../configs/FirebaseConfig"; // Import from your existing firebase config
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 type UserProfile = {
   displayName: string;
@@ -82,7 +83,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
   }, [])
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView 
       // style={styles.content}
         showsVerticalScrollIndicator={false}
@@ -148,11 +149,11 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
               <Ionicons name="log-out-outline" size={22} color="#E53935" />
             </View>
             <Text style={[styles.menuText, styles.logoutText]}>Log Out</Text>
-            <Ionicons name="chevron-forward" size={20} color="#999" />
+            <Ionicons name="chevron-forward" size={20} color={Colors.red} />
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
 
   },
   logoutText: {
-    color: '#E53935',
+    color: Colors.red,
     fontFamily: 'poppins-regular',
   },
   profileImageContainer: {
@@ -243,7 +244,7 @@ const styles = StyleSheet.create({
   },
   profileImageFallbackText: {
     fontSize: 40,
-    fontFamily: "Poppins-Bold",
+    fontFamily: "poppins-bold",
     color: "#3A66C5",
   }
   

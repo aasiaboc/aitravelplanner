@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import { router, useNavigation, useRouter } from 'expo-router';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { auth } from '../../configs/FirebaseConfig';
+import { Colors } from '@/constants/Colors';
 export default function EditProfile() {
     const user = auth.currentUser;
     const navigation = useNavigation(); 
@@ -66,7 +67,7 @@ export default function EditProfile() {
             <Text style={[styles.settingLabel, styles.dangerText]}>Delete Account</Text>
             <Text style={styles.settingDescription}>Permanently delete your account and data</Text>
             </View>
-            <Feather name="trash-2" size={20} color="#E53935" />
+            <Feather name="trash-2" size={20} color={Colors.red} />
         </TouchableOpacity>
         </View>
     </View>
@@ -143,6 +144,6 @@ const styles = StyleSheet.create({
       borderBottomWidth: 0,
     },
     dangerText: {
-      color: "#E53935",
+      color: Colors.red,
     },
   })
