@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "ai-travel-planner",
+    "name": "SuroyAI",
     "slug": "ai-travel-planner",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -14,7 +14,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/adaptive-icon.png"
       },
       "package": "com.anonymous.aitravelplanner"
     },
