@@ -41,6 +41,8 @@ export default function UserTripList({ userTrips }: { userTrips: UserTrip[] }) {
     }
   };
 
+  
+
   return trips && (
     <View>
       <View style={{ marginTop: 5, marginBottom: 80 }}>

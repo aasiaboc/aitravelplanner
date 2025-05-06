@@ -7,6 +7,7 @@ import { auth, db } from "../../configs/FirebaseConfig"; // Import from your exi
 import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { StatusBar } from 'expo-status-bar';
 
 type UserProfile = {
   displayName: string;
@@ -83,7 +84,8 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
   }, [])
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      <StatusBar backgroundColor='#000'/>
       <ScrollView 
       // style={styles.content}
         showsVerticalScrollIndicator={false}
@@ -91,24 +93,24 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }    
       >
-        <ImageBackground 
-          source={require('../../assets/images/login.png')} 
+        <View
           style={{ 
             width: '100%', 
-            height: 300,
+            height: 350,
             borderBottomLeftRadius: 40,
             borderBottomRightRadius: 40,
             overflow: 'hidden',
             shadowColor: '#000',
+            backgroundColor: Colors.primary,
             shadowOffset: {
               width: 0,
               height: 2,
             },
             shadowOpacity: 0.5,
             shadowRadius: 3.84,
-            elevation: 5,
+            // elevation: 5,
           }} 
-          resizeMode="cover">
+          >
           <View style={styles.profileSection}>
           <View style={styles.profileImageContainer}>
               {user?.photoURL ? (
@@ -123,7 +125,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
             <Text style={styles.profileName}>{profile?.displayName}</Text>
             <Text style={styles.profileEmail}>{profile?.email}</Text>
           </View>
-        </ImageBackground>
+        </View>
         
 
         <View style={styles.menuSection}>
@@ -153,7 +155,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -177,7 +179,7 @@ const styles = StyleSheet.create({
   },
   profileSection: {
     alignItems: 'center',
-    paddingVertical: 70,
+    paddingVertical: 110,
   },
   
   profileName: {

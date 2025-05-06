@@ -13,7 +13,7 @@ export default function Login() {
       style={{
           flex: 1,
           width: '100%',
-          height: Platform.OS === 'android' ? 800 : 600,
+          height: 880
 
       }}
     >
@@ -21,7 +21,7 @@ export default function Login() {
         flex:1,
         width:'90%',
         alignSelf:'center',
-        marginTop: 400,
+        marginTop: 500,
       }}>
         <Text style={{
             fontSize: 50,

@@ -1,4 +1,4 @@
-import { View, Text, Image, ScrollView } from 'react-native'
+import { View, Text, Image, ScrollView, TouchableOpacity } from 'react-native'
 import {useState, useEffect } from 'react'
 import { useLocalSearchParams, useNavigation } from 'expo-router';
 import moment from 'moment';
@@ -6,6 +6,7 @@ import { Colors } from '@/constants/Colors';
 import FlightInfo from '@/components/TripDetails/FlightInfo';
 import HotelList from '@/components/TripDetails/HotelList';
 import PlannedTrip from '@/components/TripDetails/PlannedTrip';
+import { Ionicons } from '@expo/vector-icons';
 interface Trip {
     tripData: string;
     tripPlan?: {
@@ -54,10 +55,17 @@ export default function TripDetails() {
 
     useEffect(() => {
         navigation.setOptions({
-            headerShown: true,
-            title: '',
-            headerTransparent: true,
-        });
+              headerShown: true,
+              headerTransparent: true,
+              headerTitle: "'",
+              headerLeft: () => (
+                <TouchableOpacity
+                  onPress={() => navigation.goBack()}
+                >
+                  <Ionicons name="chevron-back" size={24} color="black" />
+                </TouchableOpacity>
+              ),
+            });
         
         if (typeof trip === 'string') {
             setTripDetails(JSON.parse(trip));
